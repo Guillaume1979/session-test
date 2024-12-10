@@ -1,16 +1,18 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    @Inject('USER_SERVICE') private readonly userService: UserService,
+  ) {}
 
-  async validateUser(username: string, password: string) {
+  validateUser(username: string, password: string) {
     console.log('Inside validateUser in authService');
-    const userDB = await this.userService.findUser(username);
+    const userDB = this.userService.findUser(username);
     if (userDB && userDB.password === password) {
-      console.log(userDB);
+      console.log('userDB in validateUser method in authService', userDB);
       const { password, ...userWithoutPassword } = userDB;
       return userWithoutPassword as User;
     }

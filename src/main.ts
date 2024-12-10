@@ -7,17 +7,19 @@ import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  app.use(session({
-    name: 'testSessionID',
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 60000,
-      secure: false,
-      httpOnly: true
-    }
-  }))
+  app.use(
+    session({
+      name: 'testSessionID',
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 60000,
+        secure: false,
+        httpOnly: true,
+      },
+    }),
+  );
   app.use(passport.initialize());
   app.use(passport.session());
   const PORT = 3000;

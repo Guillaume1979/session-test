@@ -19,4 +19,8 @@ export class UserService {
     }
     return userDB;
   }
+
+  findUserById(id: number) {
+    return dbUsers.find((user) => user.id === id);
+  }
 }
